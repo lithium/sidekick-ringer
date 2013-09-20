@@ -1,0 +1,254 @@
+﻿
+package     "org.hlidskialf.ringer"
+interface "{source}org/hlidskialf/ringer/Resources.java"
+events "{source}org/hlidskialf/ringer/Commands.java"
+
+string ID_LOCALE        "en_US"
+string ID_APP_NAME      "Ringer"
+string ID_APP_FLAGS     "LCM"
+string ID_APP_CLASS     "org.hlidskialf.ringer.Ringer"
+string ID_VERSION       "V@APP_VERSION_MAJOR@.@APP_VERSION_MINOR@/@APP_VERSION_BUILD@"
+
+event EVENT_MENU_TONE_GROUP
+event EVENT_TONE_ADD_OK
+event EVENT_DIALOG_OPEN_FILE_OK
+event EVENT_DIALOG_SAVE_FILE_OK
+event EVENT_DIALOG_RENAME_OK
+
+string kString_AppName  "Ringer"
+
+string kString_RenameStatic "New name: "
+
+bitmap ID_LARGE_ICON        "{base}LargeIcon.png"
+bitmap ID_SMALL_ICON        "{base}SmallIcon.png"
+bitmap ID_SPLASH_SCREEN     "{base}SplashScreen.png"
+splashScreen ID_SPLASH_SCREEN_RESOURCE
+    image
+        bitmap = ID_SPLASH_SCREEN
+        alignWithParentLeft = 2
+        alignWithParentTop = 0
+
+    staticTextBox
+        text = ID_APP_NAME
+        top = 0
+        left = 0
+        transparent
+        doesNotHaveBorder
+        justifyLeft
+        id = kSplashTitle
+        fillToRight = 0
+endSplashScreen
+
+menu kMenuAction
+    menuItem
+        title = "Load Ringtone ..."
+        event = EVENT_MENU_LOAD_TONE
+        shortcut = 'l'
+    menuItem 
+        title = "Save as ..."
+        event = EVENT_MENU_SAVE_TONE
+        shortcut = 's'
+    menuItem
+        title = "Rename ..."
+        event = EVENT_MENU_RENAME_TONE
+        shortcut = 'r'
+    menuItem
+        title = "Discard"
+        event = EVENT_MENU_DISCARD_TONE
+        id = kMenuAction_Discard
+    menuItem
+        title = "Ringtone Info"
+        event = EVENT_MENU_INFO_TONE
+        shortcut = 'i'
+
+    divider
+
+    menuItem
+        title = "Settings"
+        event = EVENT_MENU_SETTINGS
+
+    menuItem
+        title = "About"
+        event = EVENT_MENU_ABOUT
+endMenu
+
+
+screen kScreenMain
+    className = "RingerWindow"
+    title = "Ringer"
+    actionMenu = kMenuAction
+
+
+
+    container
+        id = kScreenMain_ToneBrowser
+        className = "ToneBrowser"
+        alignWithParentLeft = 0
+        alignWithParentTop = 0
+        fillToRight = 0
+        fillToBottom = 0
+
+        popupMenu
+            id = kToneBrowser_PopupGroup
+            alignWithParentTop = 0
+            alignWithParentLeft = 4
+
+        listView
+            id = kToneBrowser_ToneList
+            className = "ToneListView"
+            positionBelow = kToneBrowser_PopupGroup : 2
+            alignWithParentLeft = 0
+            fillToRight = 0
+            fillToBottom = 0
+            initialFocus
+        endListView
+    endContainer
+
+
+endScreen
+
+dialog kDialogRename
+    title = "Rename tone to..."
+    showCancel
+
+    button
+        position = buttonBottom1
+        event = EVENT_DIALOG_RENAME_OK
+        title = "Rename"
+        shortcut = doneButton
+
+    staticText
+        text = kString_RenameStatic
+        id = kDialogRename_Static
+        alignWithParentLeft = 0
+        alignWithParentTop = 0
+        justifyLeft
+    textField
+        id = kDialogRename_Text
+        alignWithParentTop = 0
+        fillToRight = 0
+        positionToRight = kDialogRename_Static : 2
+        advanceFocusOnReturn
+        ignoreNewlines
+        initialFocus
+endDialog
+
+dialog kDialogToneInfo
+    title = "Tone Info"
+    staticText
+        id = kDialogToneInfo_DisplayName
+        alignWithParentTop = 0
+        text = "Display Name"
+        centerHorizontally
+    labeledGrid
+        fillToRight = 0
+        alignWithParentLeft = 0
+        positionBelow = kDialogToneInfo_DisplayName : 0
+        row
+            staticText
+                text = "Group:"
+            staticText
+                id = kDialogToneInfo_Group
+        endRow
+        row
+            staticText
+                text = "Name:"
+            staticText
+                id = kDialogToneInfo_Name
+        endRow
+        row
+            staticText
+                text = "ProductID:"
+            staticText
+                id = kDialogToneInfo_ProductID
+        endRow
+        row
+            staticText
+                text = "Origin:"
+            staticText
+                id = kDialogToneInfo_Origin
+        endRow
+        row
+            staticText
+                text = "Class:"
+            staticText
+                id = kDialogToneInfo_Class
+        endRow
+        row
+            staticText
+                text = "Mime Type:"
+            staticText
+                id = kDialogToneInfo_MimeType
+        endRow
+        row
+            staticText
+                text = "Loop Count:"
+            staticText
+                id = kDialogToneInfo_LoopCount
+        endRow
+    endLabeledGrid
+    button
+        position = buttonBottom1
+        title = doneButton
+        shortcut = doneButton
+        initialFocus
+endDialog
+dialog kDialogAbout
+    title = "About Ringer"
+    widthPct = 100
+    heightPct = 100
+
+    button
+        position = buttonBottom1
+        title = doneButton
+        shortcut = doneButton
+    scrollView
+        fillToRight = 0
+        fillToBottom = 0
+        alignWithParentLeft = 0
+        alignWithParentTop = 0
+        initialFocus
+        staticTextBox
+            text = "Menu resident program to manage imported ringtones"+
+            "\nhttp://code.hlidskialf.com/hiptop/ringer/\n" +
+            "\nWritten by lithium\nApr, 2008\n"
+            alignWithParentLeft = 0
+            alignWithParentTop = 0
+            fillToRight = 0
+            justifyLeft
+    endScrollView
+endDialog
+
+alert kAlertNoStorage
+    title = "Storage Unavailable"
+    text = "There is no removable storage available."
+    appAlertStyle
+endAlert
+
+dialog kDialogSettings
+    title = "Loader Settings"
+    showCancel
+    labeledGrid
+        fillToRight = 0     
+        alignWithParentLeft = 0
+        alignWithParentTop = 0
+        row
+            staticText
+                text = "Notify on Tone Load:"
+            checkBox
+                id = kDialogSettings_NotifyCheck
+        endRow
+        row
+            staticText
+                text = "Dont Discard Builtin Tones"
+            checkBox
+                id = kDialogSettings_DiscardCheck
+        endRow
+    endLabeledGrid
+    button
+        position = buttonBottom1
+        title = doneButton
+        shortcut = doneButton
+        event = EVENT_DIALOG_SETTINGS_OK
+        initialFocus
+endDialog

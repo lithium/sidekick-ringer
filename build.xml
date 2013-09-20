@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<project name="ringer" default="run">
+    <property environment="env"/>
+    <property name="DANGER_HOME" value="${env.DANGER_HOME}"/>
+
+    <property name="APP_CLASS_NAME" value="Ringer"/>
+    <property name="APP_PACKAGE_NAME" value="org.hlidskialf.ringer"/>
+
+    <property name="VERSION" value="4.6"/>
+    <property name="BUILD" value="231400"/>
+
+    <property name="APP_VERSION_MAJOR" value="0"/>
+    <property name="APP_VERSION_MINOR" value="8"/>
+    <property name="APP_VERSION_BUILD" value="0"/>
+
+    <import file="${DANGER_HOME}/tools/build_common.xml"/>
+</project>
